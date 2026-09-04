@@ -1,0 +1,52 @@
+{
+  "assets": [
+    {
+      "id": "asset_001",
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "quantity": 0.1842,
+      "currency": "EUR",
+      "history": [
+        { "timestamp": "2026-08-29T00:00:00Z", "price": 103420 },
+        { "timestamp": "2026-08-30T00:00:00Z", "price": 104850 },
+        { "timestamp": "2026-08-31T00:00:00Z", "price": 107250 },
+        { "timestamp": "2026-09-01T00:00:00Z", "price": 106890 },
+        { "timestamp": "2026-09-02T00:00:00Z", "price": 109430 },
+        { "timestamp": "2026-09-03T00:00:00Z", "price": 111240 },
+        { "timestamp": "2026-09-04T00:00:00Z", "price": 112580 }
+      ]
+    },
+    {
+      "id": "asset_002",
+      "symbol": "AAPL",
+      "name": "Apple",
+      "quantity": 12,
+      "currency": "EUR",
+      "history": [
+        { "timestamp": "2026-08-29T00:00:00Z", "price": 212.4 },
+        { "timestamp": "2026-08-30T00:00:00Z", "price": 215.1 },
+        { "timestamp": "2026-08-31T00:00:00Z", "price": 213.8 },
+        { "timestamp": "2026-09-01T00:00:00Z", "price": 218.2 },
+        { "timestamp": "2026-09-02T00:00:00Z", "price": 221.3 },
+        { "timestamp": "2026-09-03T00:00:00Z", "price": 219.6 },
+        { "timestamp": "2026-09-04T00:00:00Z", "price": 224.1 }
+      ]
+    },
+    {
+      "id": "asset_003",
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "quantity": 2.75,
+      "currency": "EUR",
+      "history": [
+        { "timestamp": "2026-08-29T00:00:00Z", "price": 4210 },
+        { "timestamp": "2026-08-30T00:00:00Z", "price": 4320 },
+        { "timestamp": "2026-08-31T00:00:00Z", "price": 4275 },
+        { "timestamp": "2026-09-01T00:00:00Z", "price": 4410 },
+        { "timestamp": "2026-09-02T00:00:00Z", "price": 4520 },
+        { "timestamp": "2026-09-03T00:00:00Z", "price": 4480 },
+        { "timestamp": "2026-09-04T00:00:00Z", "price": 4630 }
+      ]
+    }
+  ]
+}
