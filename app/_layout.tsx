@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { DarkTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
@@ -51,9 +51,7 @@ function RootLayoutNav() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={DarkTheme}>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen
