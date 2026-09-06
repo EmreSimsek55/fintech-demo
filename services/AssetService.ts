@@ -1,5 +1,8 @@
 import { Asset } from "@/types/Asset";
 
+// MOCK_DATA
+import * as mockData from "@/assets/mock.json";
+
 export function getAssetPerformanceInPercentage(asset: Asset):
   | {
       percentage: number;
@@ -28,4 +31,14 @@ export function formatCurrencyValueToLocale(
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
+}
+
+export function getAssetById(id: string): Asset | undefined {
+  const asset: Asset = mockData.assets.find(
+    (asset) => asset.id === id,
+  ) as Asset;
+
+  if (!asset) return;
+
+  return asset;
 }

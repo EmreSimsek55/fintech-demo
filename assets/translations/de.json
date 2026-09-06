@@ -1,6 +1,8 @@
 {
+  "assetDetail": {
+    "totalValue": "{{value}} €"
+  },
   "portfolio": {
-    "title": "Portfolio",
     "welcomeBack": "Gesamtübersicht",
     "totalValue": "{{value}} €"
   },
