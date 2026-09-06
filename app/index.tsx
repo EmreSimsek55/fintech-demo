@@ -1,19 +1,21 @@
+import { AssetCard } from "@/components/AssetCard";
 import LinechartInteractive from "@/components/LinechartInteractive";
+import { formatCurrencyValueToLocale } from "@/services/AssetService";
 import { Asset, Assets } from "@/types/Asset";
+import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // MOCK DATA
 import * as mockData from "@/assets/mock.json";
-import { AssetCard } from "@/components/AssetCard";
-import { formatCurrencyValueToLocale } from "@/services/AssetService";
-import { FlatList } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabOneScreen() {
   const { t } = useTranslation();
   const { top, bottom } = useSafeAreaInsets();
+
   const portfolioCurrency = (mockData as Assets).assets[0]?.currency ?? "EUR";
 
   const [selectedChartPointValue, setSelectedChartPointValue] =
@@ -31,12 +33,14 @@ export default function TabOneScreen() {
             ),
           })}
         </Text>
-        <LinechartInteractive
-          data={mockData as Assets}
-          onCurrentValueChange={(value) => {
-            setSelectedChartPointValue(value);
-          }}
-        />
+        <View style={styles.mt40}>
+          <LinechartInteractive
+            data={mockData.assets as Asset[]}
+            onCurrentValueChange={(value) => {
+              setSelectedChartPointValue(value);
+            }}
+          />
+        </View>
       </View>
       <View style={styles.flexOne}>
         <FlatList
@@ -49,7 +53,15 @@ export default function TabOneScreen() {
                 marginBottom: mockData.assets.length - 1 === index ? bottom : 0,
               }}
             >
-              <AssetCard asset={item} />
+              <AssetCard
+                asset={item}
+                onPress={() =>
+                  router.push({
+                    pathname: "/assetDetail",
+                    params: { assetId: item.id },
+                  })
+                }
+              />
             </View>
           )}
         />
@@ -59,6 +71,9 @@ export default function TabOneScreen() {
 }
 
 const styles = StyleSheet.create({
+  mt40: {
+    marginTop: 40,
+  },
   flexOne: {
     flex: 1,
   },

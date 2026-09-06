@@ -1,12 +1,12 @@
 import { mapLineChartData } from "@/services/LineChartDataService";
-import { Assets } from "@/types/Asset";
+import { Asset } from "@/types/Asset";
 import { useEffect, useRef, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LineChart, TLineChartDataProp } from "react-native-wagmi-charts";
 
 type Props = {
-  data: Assets | null;
+  data: Asset[] | null;
   onCurrentValueChange?: (value: number) => void;
 };
 
@@ -16,7 +16,7 @@ export default function LinechartInteractive(props: Props) {
 
   const dataRef = useRef<TLineChartDataProp>([]);
   const totalPortfolioRef = useRef<number>(0);
-  const breakEvenValue = props.data?.assets.reduce(
+  const breakEvenValue = props.data?.reduce(
     (sum, asset) => sum + asset.quantity * asset.boughtAt,
     0,
   );
@@ -125,8 +125,9 @@ export default function LinechartInteractive(props: Props) {
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
-    justifyContent: "center",
+    width: "100%",
+    height: 220,
     alignItems: "center",
+    justifyContent: "flex-start",
   },
 });

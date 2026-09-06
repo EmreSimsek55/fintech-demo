@@ -6,10 +6,11 @@ import {
 import { Asset } from "@/types/Asset";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
   asset: Asset;
+  onPress?: () => void;
 };
 
 export function AssetCard(props: Props) {
@@ -29,43 +30,45 @@ export function AssetCard(props: Props) {
   }, [props.asset]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.flexOne}>
-        <Text style={styles.assetTitle}>{props.asset.name}</Text>
-        <Text style={styles.assetText}>
-          {t("assetCard.quantity", {
-            quantity: formatCurrencyValueToLocale(
-              props.asset.quantity,
+    <Pressable onPress={() => (props?.onPress ? props.onPress() : {})}>
+      <View style={styles.container}>
+        <View style={styles.flexOne}>
+          <Text style={styles.assetTitle}>{props.asset.name}</Text>
+          <Text style={styles.assetText}>
+            {t("assetCard.quantity", {
+              quantity: formatCurrencyValueToLocale(
+                props.asset.quantity,
+                props.asset.currency,
+              ),
+            })}
+          </Text>
+          <Text style={styles.assetText}>
+            {t("assetCard.boughtAt", {
+              boughtAt: formatCurrencyValueToLocale(
+                props.asset.boughtAt,
+                props.asset.currency,
+              ),
+            })}
+          </Text>
+          <Text
+            style={{
+              color: assetPerformanceIsPositive ? "#1ED39A" : "#FF5C5C",
+              fontSize: 14,
+            }}
+          >
+            {assetPerformanceInPercentage >= 0 ? "+" : "-"}
+            {formatCurrencyValueToLocale(
+              Math.abs(assetPerformanceInPercentage),
               props.asset.currency,
-            ),
-          })}
-        </Text>
-        <Text style={styles.assetText}>
-          {t("assetCard.boughtAt", {
-            boughtAt: formatCurrencyValueToLocale(
-              props.asset.boughtAt,
-              props.asset.currency,
-            ),
-          })}
-        </Text>
-        <Text
-          style={{
-            color: assetPerformanceIsPositive ? "#1ED39A" : "#FF5C5C",
-            fontSize: 14,
-          }}
-        >
-          {assetPerformanceInPercentage >= 0 ? "+" : "-"}
-          {formatCurrencyValueToLocale(
-            Math.abs(assetPerformanceInPercentage),
-            props.asset.currency,
-          )}{" "}
-          %
-        </Text>
+            )}{" "}
+            %
+          </Text>
+        </View>
+        <View style={styles.chevronRightIcon}>
+          <Image source={Icons.CHEVRON_RIGHT_24} />
+        </View>
       </View>
-      <View style={styles.chevronRightIcon}>
-        <Image source={Icons.CHEVRON_RIGHT_24} />
-      </View>
-    </View>
+    </Pressable>
   );
 }
 
