@@ -1,6 +1,8 @@
+import { formatCurrency } from "@/services/AssetService";
 import { mapLineChartData } from "@/services/LineChartDataService";
 import { Asset } from "@/types/Asset";
-import { useEffect, useRef, useState } from "react";
+import { getLocales } from "expo-localization";
+import { useCallback, useEffect, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LineChart, TLineChartDataProp } from "react-native-wagmi-charts";
@@ -14,8 +16,9 @@ export default function LinechartInteractive(props: Props) {
   const [data, setData] = useState<TLineChartDataProp>([]);
   const [lineColor, setLineColor] = useState("#1ED39A");
 
-  const dataRef = useRef<TLineChartDataProp>([]);
-  const totalPortfolioRef = useRef<number>(0);
+  const locale = getLocales()[0].languageTag;
+
+  const [totalPortfolio, setTotalPortfolio] = useState<number>(0);
   const breakEvenValue = props.data?.reduce(
     (sum, asset) => sum + asset.quantity * asset.boughtAt,
     0,
@@ -24,46 +27,44 @@ export default function LinechartInteractive(props: Props) {
   useEffect(() => {
     if (props.data != null) {
       const mappedData = mapLineChartData(props.data);
-      dataRef.current = mappedData;
       setData(mappedData);
 
-      if (totalPortfolioRef.current === 0) {
-        totalPortfolioRef.current = breakEvenValue ?? 0;
-      }
+      setTotalPortfolio(breakEvenValue ?? 0);
     }
   }, [props.data, breakEvenValue]);
 
   useEffect(() => {
     if (!props.data) return;
 
-    const flatData = Array.isArray(dataRef.current)
-      ? dataRef.current
-      : (Object.values(dataRef.current ?? {})[0] ?? []);
+    const flatData = Array.isArray(data)
+      ? data
+      : (Object.values(data ?? {})[0] ?? []);
 
     const lastValue = flatData[flatData.length - 1]?.value ?? 0;
-    setLineColor(
-      lastValue < (totalPortfolioRef.current ?? 0) ? "#FF5C5C" : "#1ED39A",
-    );
-  }, [dataRef.current, totalPortfolioRef.current]);
+    setLineColor(lastValue < (totalPortfolio ?? 0) ? "#FF5C5C" : "#1ED39A");
+  }, [data, totalPortfolio]);
 
-  const handleCurrentIndexChange = (index: number) => {
-    const flatData = Array.isArray(dataRef.current)
-      ? dataRef.current
-      : (Object.values(dataRef.current ?? {})[0] ?? []);
+  const handleCurrentIndexChange = useCallback(
+    (index: number) => {
+      const flatData = Array.isArray(data)
+        ? data
+        : (Object.values(data ?? {})[0] ?? []);
 
-    if (!flatData.length) return;
+      if (!flatData.length) return;
 
-    const currentValue =
-      flatData[index]?.value ?? flatData[flatData.length - 1]?.value ?? 0;
+      const currentValue =
+        flatData[index]?.value ?? flatData[flatData.length - 1]?.value ?? 0;
 
-    if (props.onCurrentValueChange) {
-      props.onCurrentValueChange(currentValue);
-    }
+      if (props.onCurrentValueChange) {
+        props.onCurrentValueChange(currentValue);
+      }
 
-    setLineColor(
-      currentValue < (totalPortfolioRef.current ?? 0) ? "#FF5C5C" : "#1ED39A",
-    );
-  };
+      setLineColor(
+        currentValue < (totalPortfolio ?? 0) ? "#FF5C5C" : "#1ED39A",
+      );
+    },
+    [data, props.onCurrentValueChange, totalPortfolio],
+  );
 
   if (!data.length) {
     return null;
@@ -100,7 +101,12 @@ export default function LinechartInteractive(props: Props) {
             domain={[minValue, maxValue]}
             tickCount={4}
             color="#7C8AA5"
-            format={(value) => `${Number(value).toFixed(0)}€`}
+            format={(value) =>
+              formatCurrency(
+                Number(value),
+                props.data ? props.data[0].currency : "EUR",
+              )
+            }
           />
           <LineChart.Axis
             position="bottom"
@@ -110,7 +116,7 @@ export default function LinechartInteractive(props: Props) {
             color="#7C8AA5"
             textStyle={{ fontSize: 9 }}
             format={(value) =>
-              new Date(Number(value)).toLocaleDateString("de-DE", {
+              new Date(Number(value)).toLocaleDateString(locale, {
                 day: "2-digit",
                 month: "2-digit",
               })

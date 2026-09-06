@@ -15,11 +15,12 @@ type Props = {
 };
 
 export function AssetCard(props: Props) {
-  const { t } = useTranslation();
   const [assetPerformanceInPercentage, setAssetPerformanceInPercentage] =
     useState<number>(0);
   const [assetPerformanceIsPositive, setAssetPerformanceIsPositive] =
     useState<boolean>(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const assetPerformance = getAssetPerformanceInPercentage(props.asset);
@@ -37,13 +38,11 @@ export function AssetCard(props: Props) {
           <Text style={styles.assetTitle}>{props.asset.name}</Text>
           <Text style={styles.assetText}>
             {t("assetCard.quantity", {
-              quantity: formatNumber(
-                props.asset.quantity,
-              ),
+              quantity: formatNumber(props.asset.quantity),
             })}
           </Text>
           <Text style={styles.assetText}>
-            {formatCurrency(props.asset.boughtAt)}
+            {formatCurrency(props.asset.boughtAt, props.asset.currency)}
           </Text>
           <Text
             style={{
