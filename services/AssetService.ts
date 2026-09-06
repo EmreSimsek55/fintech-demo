@@ -1,4 +1,5 @@
 import { Asset } from "@/types/Asset";
+import { getLocales } from "expo-localization";
 
 // MOCK_DATA
 import * as mockData from "@/assets/mock.json";
@@ -21,15 +22,21 @@ export function getAssetPerformanceInPercentage(asset: Asset):
   return { percentage, isPositiveValue };
 }
 
-export function formatCurrencyValueToLocale(
-  value: number,
-  currency: "EUR" | "USD",
-) {
-  const locale = currency === "EUR" ? "de-DE" : "en-US";
+export function formatCurrency(value: number, currency: "EUR" | "USD" = "EUR") {
+  const locale = getLocales()[0].languageTag;
 
   return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    style: "currency",
+    currency,
+  }).format(value);
+}
+
+export function formatNumber(value: number, maximumFractionDigits = 2) {
+  const locale = getLocales()[0].languageTag;
+
+  return new Intl.NumberFormat(locale, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits,
   }).format(value);
 }
 

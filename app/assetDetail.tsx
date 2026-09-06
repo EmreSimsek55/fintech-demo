@@ -1,12 +1,8 @@
 import LinechartInteractive from "@/components/LinechartInteractive";
-import {
-  formatCurrencyValueToLocale,
-  getAssetById,
-} from "@/services/AssetService";
+import { formatCurrency, getAssetById } from "@/services/AssetService";
 import { Asset, Assets } from "@/types/Asset";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -21,8 +17,6 @@ export default function ModalScreen() {
   const { top } = useSafeAreaInsets();
 
   const portfolioCurrency = (mockData as Assets).assets[0]?.currency ?? "EUR";
-
-  const { t } = useTranslation();
 
   const { assetId } = useLocalSearchParams<{ assetId: string }>();
 
@@ -41,12 +35,7 @@ export default function ModalScreen() {
       <Text style={styles.assetDisplayText}>{mappedData[0]?.name}</Text>
 
       <Text style={styles.totalValueText}>
-        {t("portfolio.totalValue", {
-          value: formatCurrencyValueToLocale(
-            selectedChartPointValue,
-            portfolioCurrency,
-          ),
-        })}
+        {formatCurrency(selectedChartPointValue, portfolioCurrency)}
       </Text>
 
       <View style={styles.mt40}>

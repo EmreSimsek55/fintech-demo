@@ -1,5 +1,13 @@
 {
   "portfolio": {
-    "title": "Portfolio"
+    "title": "Portfolio",
+    "totalValue": "{{value}} €",
+    "welcomeBack": "Gesamtübersicht"
+  },
+  "assetDetail": {
+    "totalValue": "{{value}} €"
+  },
+  "assetCard": {
+    "boughtAt": "Gekauft bei: {{boughtAt}} €"
   }
 }

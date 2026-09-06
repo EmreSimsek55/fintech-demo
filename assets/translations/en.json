@@ -1,13 +1,8 @@
 {
-  "assetDetail": {
-    "totalValue": "MISSING_TRANSLATION"
-  },
   "portfolio": {
-    "welcomeBack": "MISSING_TRANSLATION",
-    "totalValue": ""
+    "overview": "Overview"
   },
   "assetCard": {
-    "quantity": "MISSING_TRANSLATION",
-    "boughtAt": "MISSING_TRANSLATION"
+    "quantity": "Quantity: {{quantity}}"
   }
 }
