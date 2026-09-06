@@ -1,7 +1,8 @@
 import Icons from "@/enums/Icons";
 import {
-    formatCurrencyValueToLocale,
-    getAssetPerformanceInPercentage,
+  formatCurrency,
+  formatNumber,
+  getAssetPerformanceInPercentage,
 } from "@/services/AssetService";
 import { Asset } from "@/types/Asset";
 import { useEffect, useState } from "react";
@@ -36,19 +37,13 @@ export function AssetCard(props: Props) {
           <Text style={styles.assetTitle}>{props.asset.name}</Text>
           <Text style={styles.assetText}>
             {t("assetCard.quantity", {
-              quantity: formatCurrencyValueToLocale(
+              quantity: formatNumber(
                 props.asset.quantity,
-                props.asset.currency,
               ),
             })}
           </Text>
           <Text style={styles.assetText}>
-            {t("assetCard.boughtAt", {
-              boughtAt: formatCurrencyValueToLocale(
-                props.asset.boughtAt,
-                props.asset.currency,
-              ),
-            })}
+            {formatCurrency(props.asset.boughtAt)}
           </Text>
           <Text
             style={{
@@ -57,11 +52,7 @@ export function AssetCard(props: Props) {
             }}
           >
             {assetPerformanceInPercentage >= 0 ? "+" : "-"}
-            {formatCurrencyValueToLocale(
-              Math.abs(assetPerformanceInPercentage),
-              props.asset.currency,
-            )}{" "}
-            %
+            {formatNumber(Math.abs(assetPerformanceInPercentage))} %
           </Text>
         </View>
         <View style={styles.chevronRightIcon}>

@@ -1,6 +1,6 @@
 import { AssetCard } from "@/components/AssetCard";
 import LinechartInteractive from "@/components/LinechartInteractive";
-import { formatCurrencyValueToLocale } from "@/services/AssetService";
+import { formatCurrency } from "@/services/AssetService";
 import { Asset, Assets } from "@/types/Asset";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -23,15 +23,10 @@ export default function TabOneScreen() {
 
   return (
     <View style={[styles.flexOne, { marginTop: top }]}>
-      <Text style={styles.welcomeText}>{t("portfolio.welcomeBack")}</Text>
+      <Text style={styles.welcomeText}>{t("portfolio.overview")}</Text>
       <View style={styles.flexOne}>
         <Text style={styles.totalValueText}>
-          {t("portfolio.totalValue", {
-            value: formatCurrencyValueToLocale(
-              selectedChartPointValue,
-              portfolioCurrency,
-            ),
-          })}
+          {formatCurrency(selectedChartPointValue, portfolioCurrency)}
         </Text>
         <View style={styles.mt40}>
           <LinechartInteractive

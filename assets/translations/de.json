@@ -1,13 +1,8 @@
 {
-  "assetDetail": {
-    "totalValue": "{{value}} €"
-  },
   "portfolio": {
-    "welcomeBack": "Gesamtübersicht",
-    "totalValue": "{{value}} €"
+    "overview": "Gesamtübersicht"
   },
   "assetCard": {
-    "quantity": "Anzahl: {{quantity}}",
-    "boughtAt": "Gekauft bei: {{boughtAt}} €"
+    "quantity": "Anzahl: {{quantity}}"
   }
 }
