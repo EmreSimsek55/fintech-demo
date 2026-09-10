@@ -12,7 +12,11 @@ export function getAssetPerformanceInPercentage(asset: Asset):
   | undefined {
   if (!asset.history.length || asset.boughtAt === 0) return undefined;
 
-  const currentAssetPrice = asset.history[asset.history.length - 1].price;
+  const sortedHistory = [...asset.history].sort(
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+  );
+
+  const currentAssetPrice = sortedHistory[sortedHistory.length - 1]?.price;
 
   const percentage =
     ((currentAssetPrice - asset.boughtAt) / asset.boughtAt) * 100;
